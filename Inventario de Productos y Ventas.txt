@@ -1,0 +1,196 @@
+#include <iostream>
+#include <string>
+#include <string.h>
+
+using namespace std;
+
+struct Producto {
+    string nombre;
+    float precio;
+    int stock;
+};
+
+struct Venta {
+    int idVenta;
+    string producto;
+    int cantidad;
+    float precioTotal;
+};
+
+int main() {
+    char opcion;
+    Producto productos[100]; 
+    int cantidadProductos = 0;
+    Venta ventas[100]; 
+    int cantidadVentas = 0;
+
+    do {
+        cout << "MENU\n";
+        cout << "A: Registrar un nuevo producto\n";
+        cout << "B: Listar los productos registrados\n";
+        cout << "C: Buscar un producto por nombre\n";
+        cout << "D: Actualizar los datos de un producto\n";
+        cout << "E: Eliminar un producto\n";
+        cout << "F: Registrar una venta\n";
+        cout << "G: Listar las ventas realizadas\n";
+        cout << "H: Calcular el total de ventas realizadas\n";
+        cout << "S: Salir del programa\n";
+        cout << "Seleccione una opción: ";
+        cin >> opcion;
+
+        switch(opcion) {
+            case 'A': {
+                string nombreProducto;
+    			double precioProducto;
+    			cout << "Ingrese el nombre del nuevo producto: ";
+    			cin >> nombreProducto;
+    			cout << "Ingrese el precio del nuevo producto: ";
+    			cin >> precioProducto;
+    			productos[cantidadProductos].nombre = nombreProducto;
+    			productos[cantidadProductos].precio = precioProducto;
+    			cantidadProductos++;
+    			cout << "Producto registrado con éxito.\n";
+    			break;
+            }
+            case 'B': {
+                if (cantidadProductos == 0) {
+        			cout << "No hay productos registrados.\n";
+    			} else {
+        			cout << "Lista de productos registrados:\n";
+        			for (int i = 0; i < cantidadProductos; i++) {
+            			cout << "Nombre: " << productos[i].nombre << " Precio: $" << productos[i].precio << "\n";
+        			}
+    			}			
+    			break;
+            }
+            case 'C': {
+    			string nombreProductoBuscar;
+    			bool productoEncontrado = false;
+    			cout << "Ingrese el nombre del producto a buscar: ";
+    			cin >> nombreProductoBuscar;
+    			for (int i = 0; i < cantidadProductos; i++) {
+        			if (productos[i].nombre == nombreProductoBuscar) {
+            			cout << "Producto encontrado:\n";
+            			cout << "Nombre: " << productos[i].nombre << " Precio: $" << productos[i].precio << "\n";
+            			productoEncontrado = true;
+            			break;
+        			}
+    			}
+    			if (!productoEncontrado) {
+        			cout << "Producto no encontrado.\n";
+    			}
+    			break;
+            }
+            case 'D': {
+                string nombreProductoActualizar;
+    			cout << "Ingrese el nombre del producto a actualizar: ";
+    			cin >> nombreProductoActualizar;
+   				bool productoEncontrado = false;
+    			for (int i = 0; i < cantidadProductos; i++) {
+        			if (productos[i].nombre == nombreProductoActualizar) {
+            			cout << "Ingrese el nuevo nombre para el producto: ";
+            			cin >> productos[i].nombre;
+
+            			cout << "Ingrese el nuevo precio para el producto: ";
+            			cin >> productos[i].precio;
+
+            			productoEncontrado = true;
+            			cout << "Producto actualizado con éxito.\n";
+            			break;
+        			}
+    			}
+				if (!productoEncontrado) {
+        			cout << "Producto no encontrado.\n";
+    			}
+    			break;
+            }
+            case 'E': {
+                if (cantidadProductos == 0) {
+        		cout << "No hay productos registrados para eliminar.\n";
+    			} else {
+        			string nombreProductoEliminar;
+        			bool productoEliminado = false;
+        			cout << "Ingrese el nombre del producto a eliminar: ";
+        			cin >> nombreProductoEliminar;
+        			for (int i = 0; i < cantidadProductos; i++) {
+            			if (productos[i].nombre == nombreProductoEliminar) {
+                			for (int j = i; j < cantidadProductos - 1; j++) {
+                    		productos[j] = productos[j + 1];
+                			}
+                			cantidadProductos--;
+                			productoEliminado = true;
+                			cout << "Producto eliminado con éxito.\n";
+                			break;
+            			}
+        			}
+        			if (!productoEliminado) {
+            			cout << "Producto no encontrado, no se pudo eliminar.\n";
+        			}
+    			}
+    			break;
+            }
+            case 'F': {
+				if (cantidadProductos == 0) {
+        			cout << "No hay productos registrados para realizar una venta.\n";
+    			} else {
+        			string nombreProductoVenta;
+        			int cantidadVenta;
+        			bool productoEncontrado = false;
+        			cout << "Ingrese el nombre del producto a vender: ";
+        			cin >> nombreProductoVenta;
+        			for (int i = 0; i < cantidadProductos; i++) {
+            			if (productos[i].nombre == nombreProductoVenta) {
+                			cout << "Ingrese la cantidad a vender: ";
+                			cin >> cantidadVenta;
+                			if (productos[i].stock >= cantidadVenta) {
+                    			productos[i].stock -= cantidadVenta;
+                    			cout << "Venta realizada con éxito.\n";
+                			} else {
+                    			cout << "No hay suficiente stock para realizar la venta.\n";
+                			}
+                			productoEncontrado = true;
+                			break;
+            			}
+        			}
+        			if (!productoEncontrado) {
+            			cout << "Producto no encontrado, no se puede realizar la venta.\n";
+        			}
+    			}
+    			break;
+            }
+            case 'G': {
+    			if (ventasRealizadas.empty()) {
+        			cout << "No hay ventas registradas.\n";
+    			} else {
+        			cout << "Ventas realizadas:\n";
+        			for (const auto& venta : ventasRealizadas) {
+            			cout << "Producto vendido: " << venta.nombreProducto << "\n";
+            			cout << "Cantidad vendida: " << venta.cantidadVendida << "\n";
+            			cout << "----------------------------\n";
+        			}
+    			}
+    			break;
+            }
+            case 'H': {
+    			double totalVentas = 0.0;
+    			for (const auto& venta : ventasRealizadas) {
+        			for (const auto& producto : productos) {
+            			if (producto.nombre == venta.nombreProducto) {
+                			totalVentas += producto.precio * venta.cantidadVendida;
+                			break;
+            			}
+        			}
+    			}
+    			cout << "El total de ventas realizadas es: $" << totalVentas << "\n";
+    			break;
+            }
+            case 'S': {
+                cout << "Saliendo del programa...\n";
+                break;
+            }
+            default:
+                cout << "Opción no válida\n";
+        }
+    } while(opcion != 'S');
+
+    return 0;
